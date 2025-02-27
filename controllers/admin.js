@@ -222,6 +222,8 @@ exports.add_language = async (req, res) => {
     }
 };
 
+// AGSH
+
 exports.get_all_language = async (req, res) => {
     try {
         const language = await Language.findAll({
