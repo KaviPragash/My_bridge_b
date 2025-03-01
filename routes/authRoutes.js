@@ -25,6 +25,8 @@ const {
         add_institute, GetInstituteDetails, GetInstituteById, updateInstitute, deleteInstitute
 }= require("../controllers/institute")
 
+const uploadImage = require("../controllers/img");
+
 const router = express.Router();
 
 // User Routes
@@ -42,6 +44,9 @@ router.get("/Admin_getUserById/:id", Admin_getUserById);
 router.get("/check", authMiddleware, (req, res) => {
         res.status(200).json({ message: "User is authenticated", user: req.user });
     });
+
+// Image Routes
+router.post("/uploadImage", uploadImage)
 
 // Category Routes
 router.post("/add_category", add_category)

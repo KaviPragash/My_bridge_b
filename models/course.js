@@ -43,6 +43,10 @@ const Course = sequelize.define("Course", {
         type: DataTypes.TEXT,
         allowNull: true,
     },
+    course_image: {
+        type: DataTypes.STRING,
+        allowNull: true,
+    },
     category_id: {
         type: DataTypes.INTEGER,
         references: {
