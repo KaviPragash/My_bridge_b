@@ -17,7 +17,9 @@ const {
         add_location,
         get_all_location,
         add_language,
-        get_all_language
+        get_all_language,
+        institute_type,
+        get_all_InstituteType
 }= require("../controllers/admin")
 
 // Institute_authController Routes
@@ -47,6 +49,10 @@ router.get("/check", authMiddleware, (req, res) => {
 
 // Image Routes
 router.post("/uploadImage", uploadImage)
+
+// institute type routes
+router.post("/institute_type", institute_type)
+router.get("/get_all_InstituteType", get_all_InstituteType)
 
 // Category Routes
 router.post("/add_category", add_category)

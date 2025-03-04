@@ -3,8 +3,10 @@ const Admin = require("../models/admin_user");
 const Category = require("../models/category");
 const Location = require("../models/location");
 const Language = require("../models/language");
+const InstituteType = require("../models/institute_type");
 const { Sequelize } = require("sequelize");
 const jwt = require("jsonwebtoken");
+const Institute_Type = require("../models/institute_type");
 
 // ✅ Register User ADmin
 exports.admin_register = async (req, res) => {
@@ -231,6 +233,53 @@ exports.get_all_language = async (req, res) => {
         });
 
         return res.status(200).json(language);
+    } catch (error) {
+        res.status(500).json({ message: "Internal Server Error", error: error.message });
+    }
+};
+
+exports.institute_type = async (req, res) => {
+    try {
+        const { institute_type_name } = req.body;
+
+        if (!institute_type_name) {
+            return res.status(400).json({ message: "institute type is required" });
+        }
+
+        // Convert to lowercase for case-insensitive comparison
+        const institute_type_nameLower = institute_type_name.toLowerCase();
+
+        // Check if category_name already exists in a case-insensitive manner
+        const existingInstitute_type = await InstituteType.findOne({
+            where: Sequelize.where(
+                Sequelize.fn('LOWER', Sequelize.col('institute_type_name')), 
+                institute_type_nameLower
+            )
+        });
+
+        if (existingInstitute_type) {
+            return res.status(400).json({ message: "institute name already exists" });
+        }
+
+        // Create new category
+        const newInstituteType = await InstituteType.create({ institute_type_name });
+
+        res.status(201).json({
+            message: "Institute Type added successfully",
+            category: newInstituteType
+        });
+    } catch (error) {
+        res.status(500).json({ message: "Internal Server Error", error: error.message });
+    }
+};
+
+exports.get_all_InstituteType = async (req, res) => {
+    try {
+        const InstituteType = await Institute_Type.findAll({
+            attributes: ["institute_type_id", "institute_type_name" ], // Fetch only category_name
+        });
+
+        return res.status(200).json(InstituteType);
     } catch (error) {
         res.status(500).json({ message: "Internal Server Error", error: error.message });
     }

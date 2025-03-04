@@ -75,10 +75,8 @@ exports.GetCoursedetails = async (req, res) => {
                 "course_type",
                 "course_learn",
                 "course_description",
-                "course_requirements"
-                // "category_id",
-                // "language_id",
-                // "location_id"
+                "course_requirements",
+                "course_image"
             ],
             include: [
                 {
