@@ -55,6 +55,10 @@ exports.GetInstituteDetails = async (req, res) => {
                 "institution_overview",
                 "course_names",
                 "institution_image",
+                "category_id",
+                "language_id",
+                "location_id",
+                "institute_type_id"
 
             ],
             include: [
@@ -99,6 +103,10 @@ exports.GetInstituteById = async (req, res) => {
                 "institution_overview",
                 "course_names",
                 "institution_image",
+                "category_id",
+                "language_id",
+                "location_id",
+                "institute_type_id"
             ],
             include: [
                 {
