@@ -27,6 +27,11 @@ const {
         add_institute, GetInstituteDetails, GetInstituteById, updateInstitute, deleteInstitute
 }= require("../controllers/institute")
 
+// Expert Auth Routs
+const {
+        add_expert, GetExpertById, GetExpertDetails, updateExpert,deleteExpert
+}= require("../controllers/expert")
+
 const uploadImage = require("../controllers/img");
 
 const router = express.Router();
@@ -80,5 +85,11 @@ router.get("/GetInstituteById/:id", GetInstituteById);
 router.put("/updateInstitute/:id", updateInstitute);
 router.delete("/deleteInstitute/:id", deleteInstitute);
 
+// Expert Page Routs
+router.post("/add_expert", add_expert);
+router.get("/GetExpertDetails", GetExpertDetails);
+router.get("/GetExpertById/:id", GetExpertById);
+router.put("/updateExpert/:id", updateExpert);
+router.delete("/deleteExpert/:id", deleteExpert);
 
 module.exports = router;
