@@ -32,9 +32,14 @@ const {
         add_expert, GetExpertById, GetExpertDetails, updateExpert,deleteExpert
 }= require("../controllers/expert")
 
+const {ServiceProvider_Register, ServiceProvider_login,AllServiceProviders,ServiceProviderById } = require("../controllers/ServiceProvider")
+
 const uploadImage = require("../controllers/img");
 
 const router = express.Router();
+
+
+
 
 // User Routes
 router.post("/register", register);
@@ -46,6 +51,12 @@ router.get("/getUserById/:id", getUserById);
 router.post("/admin_register", admin_register);
 router.post("/admin_login", Adminlogin);
 router.get("/Admin_getUserById/:id", Admin_getUserById);
+
+// Service Provider Routes
+router.post("/ServiceProvider_Register", ServiceProvider_Register);
+router.post("/ServiceProvider_login", ServiceProvider_login);
+router.get("/AllServiceProviders", AllServiceProviders);
+router.get("/ServiceProviderById/:id", ServiceProviderById);
 
 // Auth Check Route
 router.get("/check", authMiddleware, (req, res) => {
