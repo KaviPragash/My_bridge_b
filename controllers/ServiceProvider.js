@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 // ✅ Register User
 exports.ServiceProvider_Register = async (req, res) => {
     try {
-        const { ServiceProvider_email, password, ServiceProvider_name, DOB, gender, phoneNumber, serviceType } = req.body;
+        const { ServiceProvider_email, password, ServiceProvider_name, DOB, gender, phoneNumber } = req.body;
 
         if (!ServiceProvider_email || !password) {
             return res.status(400).json({ message: "Email and password are required" });
@@ -20,7 +20,6 @@ exports.ServiceProvider_Register = async (req, res) => {
             DOB,
             gender,
             phoneNumber,
-            serviceType
         });
 
         res.status(201).json({ message: "Service Provider registered successfully", Service_provider });

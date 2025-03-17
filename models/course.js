@@ -3,6 +3,7 @@ const sequelize = require("../config/database");
 const Category = require("./category");
 const Language = require("./language");
 const Location = require("./location");
+const ServiceProvider = require("./serviceProvider"); // Import ServiceProvider model
 
 const Course = sequelize.define("Course", {
     course_id: {
@@ -71,6 +72,14 @@ const Course = sequelize.define("Course", {
         },
         allowNull: true,
     },
+    ServiceProvider_id: {  // New foreign key
+        type: DataTypes.INTEGER,
+        references: {
+            model: ServiceProvider,
+            key: "ServiceProvider_id",
+        },
+        allowNull: true,
+    },
 }, {
     timestamps: false,
     tableName: "Course"
@@ -85,5 +94,8 @@ Language.hasMany(Course, { foreignKey: "language_id" });
 
 Course.belongsTo(Location, { foreignKey: "location_id" });
 Location.hasMany(Course, { foreignKey: "location_id" });
+
+Course.belongsTo(ServiceProvider, { foreignKey: "ServiceProvider_id" }); // New association
+ServiceProvider.hasMany(Course, { foreignKey: "ServiceProvider_id" });
 
 module.exports = Course;

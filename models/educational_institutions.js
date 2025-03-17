@@ -4,6 +4,7 @@ const Category = require("./category");
 const Language = require("./language");
 const Location = require("./location");
 const InstituteType = require("./institute_type")
+const ServiceProvider = require("./serviceProvider"); // Import ServiceProvider model
 
 const Edu_institution = sequelize.define(
     "educational_institutions",
@@ -70,6 +71,14 @@ const Edu_institution = sequelize.define(
             },
             allowNull: true,
         },
+        ServiceProvider_id: {  // New foreign key
+            type: DataTypes.INTEGER,
+            references: {
+                model: ServiceProvider,
+                key: "ServiceProvider_id",
+            },
+            allowNull: true,
+        },
     },
     {
         timestamps: false,
@@ -89,5 +98,8 @@ Location.hasMany(Edu_institution, { foreignKey: "location_id" });
 
 Edu_institution.belongsTo(InstituteType, { foreignKey: "institute_type_id" });
 InstituteType.hasMany(Edu_institution, { foreignKey: "institute_type_id" });
+
+Edu_institution.belongsTo(ServiceProvider, { foreignKey: "ServiceProvider_id" }); // New association
+ServiceProvider.hasMany(Edu_institution, { foreignKey: "ServiceProvider_id" });
 
 module.exports = Edu_institution;

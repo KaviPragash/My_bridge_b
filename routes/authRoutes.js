@@ -4,7 +4,7 @@ const express = require("express");
 const { register, login, getAllUsers, getUserById, 
 } = require("../controllers/authController");
 
-const { add_course, GetCoursedetails, GetCourseById, updateCourse, deleteCourse,      
+const { add_course, GetCoursedetails, GetCourseById, updateCourse, deleteCourse,GetCourseBYSP      
 } = require("../controllers/course");
 
 // Admin_authController Routes
@@ -24,12 +24,12 @@ const {
 
 // Institute_authController Routes
 const {
-        add_institute, GetInstituteDetails, GetInstituteById, updateInstitute, deleteInstitute
+        add_institute, GetInstituteDetails, GetInstituteById, updateInstitute, deleteInstitute, GetInstituteBYSP
 }= require("../controllers/institute")
 
 // Expert Auth Routs
 const {
-        add_expert, GetExpertById, GetExpertDetails, updateExpert,deleteExpert
+        add_expert, GetExpertById, GetExpertDetails, updateExpert,deleteExpert, GetExpertssBYSP
 }= require("../controllers/expert")
 
 const {ServiceProvider_Register, ServiceProvider_login,AllServiceProviders,ServiceProviderById } = require("../controllers/ServiceProvider")
@@ -88,6 +88,7 @@ router.get("/GetCoursedetails", GetCoursedetails);
 router.get("/GetCourseById/:id", GetCourseById);
 router.put("/updateCourse/:id", updateCourse);
 router.delete("/deleteCourse/:id", deleteCourse);
+router.get("/GetCourseBYSP", GetCourseBYSP);
 
 // University page Routes
 router.post("/add_institute", add_institute);
@@ -95,6 +96,7 @@ router.get("/GetInstituteDetails", GetInstituteDetails);
 router.get("/GetInstituteById/:id", GetInstituteById);
 router.put("/updateInstitute/:id", updateInstitute);
 router.delete("/deleteInstitute/:id", deleteInstitute);
+router.get("/GetInstituteBYSP", GetInstituteBYSP);
 
 // Expert Page Routs
 router.post("/add_expert", add_expert);
@@ -102,5 +104,7 @@ router.get("/GetExpertDetails", GetExpertDetails);
 router.get("/GetExpertById/:id", GetExpertById);
 router.put("/updateExpert/:id", updateExpert);
 router.delete("/deleteExpert/:id", deleteExpert);
+router.get("/GetExpertssBYSP", GetExpertssBYSP);
+
 
 module.exports = router;

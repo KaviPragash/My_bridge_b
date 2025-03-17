@@ -16,7 +16,8 @@ exports.add_institute = async (req, res) => {
             category_id,
             language_id,
             location_id,
-            institute_type_id
+            institute_type_id,
+            ServiceProvider_id
         } = req.body;
 
         if (!institution_name) {
@@ -33,7 +34,8 @@ exports.add_institute = async (req, res) => {
             category_id,
             language_id,
             location_id,
-            institute_type_id
+            institute_type_id,
+            ServiceProvider_id
         });
 
         res.status(201).json({ message: "Institute Details Added successfully", institute });
@@ -223,3 +225,60 @@ exports.deleteInstitute = async (req, res) => {
         res.status(500).json({ message: "Internal Server Error", error: error.message });
     }
 };
+
+exports.GetInstituteBYSP = async (req, res) => {
+    try {
+        const { ServiceProvider_id } = req.query; // Expecting query parameter (for GET request)
+
+        if (!ServiceProvider_id) {
+            return res.status(400).json({ message: "ServiceProvider_id is required" });
+        }
+
+        // Find institute by its ID, including related models
+        const InstituteDetails = await Institute.findOne({
+            where: { ServiceProvider_id },  // Match with institution_id field in DB
+            attributes: [
+                "institution_id",
+                "institution_name",
+                "course_count",
+                "institution_description",
+                "institution_overview",
+                "course_names",
+                "institution_image",
+                "category_id",
+                "language_id",
+                "location_id",
+                "institute_type_id",
+                "ServiceProvider_id"
+            ],
+            include: [
+                {
+                    model: Category,
+                    attributes: ["category_id", "category_name"]
+                },
+                {
+                    model: Language,
+                    attributes: ["language_id", "language_name"]
+                },
+                {
+                    model: Location,
+                    attributes: ["location_id", "location_name"]
+                },
+                {
+                    model: InstituteType,
+                    attributes: ["institute_type_id", "institute_type_name"]
+                }
+            ]
+        });
+
+        // If institute is not found
+        if (!InstituteDetails) {
+            return res.status(404).json({ message: "Institute not found" });
+        }
+
+        // Return the institute details
+        return res.status(200).json(InstituteDetails);
+    } catch (error) {
+        return res.status(500).json({ message: "Internal Server Error", error: error.message });
+    }
+}
