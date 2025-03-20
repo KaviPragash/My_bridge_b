@@ -67,14 +67,30 @@ exports.ServiceProvider_login = async (req, res) => {
 // ✅ Get All Users from the Database Table 
 exports.AllServiceProviders = async (req, res) => {
     try {
-        const { data, error } = await supabase
-            .from("ServiceProvider") // Replace with your actual table name
-            .select("*"); // Fetch all columns
+        const ServiceProviders = await ServiceProvider.findAll({
+            attributes: [
+                "ServiceProvider_id",
+                "ServiceProvider_name",
+                "ServiceProvider_email",
+                "role",
+                "DOB",
+                "gender",
+                "phoneNumber",
+                "serviceType",
+                "createdAt",
+                "updatedAt"
+            ]
+        });
 
-        if (error) return res.status(400).json({ message: error.message });
+        // If no users are found, return a 404 response
+        if (!ServiceProviders || ServiceProviders.length === 0) {
+            return res.status(404).json({ message: "No ServiceProviders found" });
+        }
 
-        res.json({ users: data });
+        // Return the list of users
+        res.status(200).json({ ServiceProviders });
     } catch (error) {
+        console.error("Error fetching ServiceProviders:", error);
         res.status(500).json({ message: "Internal Server Error", error: error.message });
     }
 };
@@ -106,3 +122,69 @@ exports.ServiceProviderById = async (req, res) => {
         return res.status(500).json({ message: "Server error" });
     }
 };
+
+
+// Update Service Provider
+exports.updateServiceProvider = async (req, res) => {
+    try {
+        const { id } = req.params; // Extract ServiceProvider ID
+        const {
+            ServiceProvider_name,
+            ServiceProvider_email,
+            password,
+            role,
+            DOB,
+            gender,
+            phoneNumber,
+            serviceType,
+        } = req.body;
+
+        // Find service provider
+        const serviceProvider = await ServiceProvider.findByPk(id);
+        if (!serviceProvider) {
+            return res.status(404).json({ message: "Service Provider not found" });
+        }
+
+        // Prepare update data
+        const updateData = {};
+        if (ServiceProvider_name) updateData.ServiceProvider_name = ServiceProvider_name;
+        if (ServiceProvider_email) updateData.ServiceProvider_email = ServiceProvider_email;
+        if (role) updateData.role = role;
+        if (DOB) updateData.DOB = DOB;
+        if (gender) updateData.gender = gender;
+        if (phoneNumber) updateData.phoneNumber = phoneNumber;
+        if (serviceType) updateData.serviceType = serviceType;
+
+        // If password is provided, hash it
+        if (password) {
+            const salt = await bcrypt.genSalt(10);
+            updateData.password = await bcrypt.hash(password, salt);
+        }
+
+        // Update Service Provider
+        await serviceProvider.update(updateData);
+
+        return res.status(200).json({ message: "Service Provider updated successfully" });
+    } catch (error) {
+        return res.status(500).json({ message: "Error updating Service Provider", error: error.message });
+    }
+};
+
+// Delete Service Provider
+exports.deleteServiceProvider = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const serviceProvider = await ServiceProvider.findByPk(id);
+        if (!serviceProvider) {
+            return res.status(404).json({ message: "Service Provider not found" });
+        }
+
+        await ServiceProvider.destroy({ where: { ServiceProvider_id: id } });
+
+        return res.status(200).json({ message: "Service Provider deleted successfully" });
+    } catch (error) {
+        return res.status(500).json({ message: "Error deleting Service Provider", error: error.message });
+    }
+};
+
