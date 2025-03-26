@@ -179,6 +179,7 @@ exports.updateCourse = async (req, res) => {
             course_learn,
             course_description,
             course_requirements,
+            course_image,
             category_id,
             language_id,
             location_id
@@ -215,12 +216,13 @@ exports.updateCourse = async (req, res) => {
             course_learn,
             course_description,
             course_requirements,
+            course_image,
             category_id,
             language_id,
             location_id
         });
 
-        return res.status(200).json({ message: "Course updated successfully", course });
+        return res.status(200).json({ message: "Course updated successfully" });
     } catch (error) {
         res.status(500).json({ message: "Internal Server Error", error: error.message });
     }
