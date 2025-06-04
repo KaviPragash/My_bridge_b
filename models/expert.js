@@ -3,48 +3,44 @@ const sequelize = require("../config/database");
 const Category = require("./category");
 const Language = require("./language");
 const Location = require("./location");
-const ServiceProvider = require("./serviceProvider"); // Import ServiceProvider model
+const ServiceProvider = require("./serviceProvider");
 
-const Course = sequelize.define("Course", {
-    course_id: {
+const Experts = sequelize.define("Experts", {
+    expert_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
     },
-    course_name: {
+    expert_name: {
         type: DataTypes.STRING,
         allowNull: true,
     },
-    course_include: {
+    expert_about: {
         type: DataTypes.STRING,
         allowNull: true,
     },
-    course_organization: {
+    expert_qualification: {
         type: DataTypes.STRING,
         allowNull: true,
     },
-    course_duration: {
+    expert_experience: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+    },
+    expert_availability: {
         type: DataTypes.STRING,
         allowNull: true,
     },
-    course_type: {
+    expert_description: {
         type: DataTypes.STRING,
         allowNull: true,
     },
-    course_learn: {  
+    expert_subject: {  
         type: DataTypes.TEXT,
         allowNull: true,
     },
-    course_description: {  
-        type: DataTypes.TEXT,
-        allowNull: true,
-    },
-    course_requirements: {  
-        type: DataTypes.TEXT,
-        allowNull: true,
-    },
-    course_image: {
+    expert_image: {
         type: DataTypes.STRING,
         allowNull: true,
     },
@@ -82,20 +78,20 @@ const Course = sequelize.define("Course", {
     },
 }, {
     timestamps: false,
-    tableName: "Course"
+    tableName: "Experts"
 });
 
 // Associations
-Course.belongsTo(Category, { foreignKey: "category_id" });
-Category.hasMany(Course, { foreignKey: "category_id" });
+Experts.belongsTo(Category, { foreignKey: "category_id" });
+Category.hasMany(Experts, { foreignKey: "category_id" });
 
-Course.belongsTo(Language, { foreignKey: "language_id" });
-Language.hasMany(Course, { foreignKey: "language_id" });
+Experts.belongsTo(Language, { foreignKey: "language_id" });
+Language.hasMany(Experts, { foreignKey: "language_id" });
 
-Course.belongsTo(Location, { foreignKey: "location_id" });
-Location.hasMany(Course, { foreignKey: "location_id" });
+Experts.belongsTo(Location, { foreignKey: "location_id" });
+Location.hasMany(Experts, { foreignKey: "location_id" });
 
-Course.belongsTo(ServiceProvider, { foreignKey: "ServiceProvider_id" }); // New association
-ServiceProvider.hasMany(Course, { foreignKey: "ServiceProvider_id" });
+Experts.belongsTo(ServiceProvider, { foreignKey: "ServiceProvider_id" }); // New association
+ServiceProvider.hasMany(Experts, { foreignKey: "ServiceProvider_id" });
 
-module.exports = Course;
+module.exports = Experts;
